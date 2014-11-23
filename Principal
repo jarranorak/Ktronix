@@ -1,0 +1,83 @@
+package com.example.ktronix;
+
+import java.util.ArrayList;
+
+import android.util.Log;
+
+
+public class Principal {
+	
+	ArrayList<Producto> productos = new ArrayList<Producto>();
+	ArrayList<Pedido> pedidos = new ArrayList<Pedido>();
+	
+	private static Principal instance = null;
+	/*public ArrayList traerNombres(){
+		ArrayList <String> temp = new ArrayList<String>();
+		for(Producto pro : productos){
+			temp.add(pro.getNombre());
+		
+		}
+		return temp;
+	
+	}*/
+	public static Principal getInstance()
+	{
+		if (instance == null)
+		{
+			instance =new Principal();
+		}
+		return instance;
+	}
+	
+	public void adicionarProducto(Producto p){
+		productos.add(p);
+	}
+	
+	public void adicionarPedido(Pedido p){
+		pedidos.add(p);
+		
+	}
+	
+	public ArrayList<Pedido> getPedido (){
+		return pedidos;
+	}
+	public Producto buscarProducto(String p){
+		Producto pro1= new Producto();
+
+		for (int pos =0;pos < productos.size();pos ++){
+			
+			if (productos.get(pos).getCodigo().equals(p)){
+				pro1 = productos.get(pos);
+			}
+		}
+		return pro1;
+		
+	}
+	
+	public void eliminarProducto(String c){
+		for (int pos =0;pos < productos.size();pos ++){	
+			if (productos.get(pos).getCodigo().equals(c)){
+				productos.remove(pos);
+			}
+		}
+		
+	}
+	
+	public void modificar(String p,Producto p1){
+		for(int pos = 0;pos < productos.size(); pos++){
+			if (productos.get(pos).getCodigo().equals(p))
+			{
+				
+				productos.get(pos).setCantidad(p1.getCantidad());
+				productos.get(pos).setDescripcion(p1.getDescripcion());
+				productos.get(pos).setNombre(p1.getNombre());
+				productos.get(pos).setPrecio(p1.getPrecio());
+				
+			}
+		}
+	}
+	
+	
+
+
+}
