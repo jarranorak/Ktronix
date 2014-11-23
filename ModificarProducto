@@ -1,0 +1,121 @@
+package com.example.ktronix;
+
+import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+
+
+
+public class ModificarProducto extends ActionBarActivity {
+
+	private EditText nombre;
+	private EditText cantidad;
+	private EditText precio;
+	private EditText desc;
+	private Producto p;
+	private String codigo1;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_modificar_producto);
+		
+		nombre=(EditText) findViewById(R.id.editText2);
+		cantidad=(EditText) findViewById(R.id.editText3);
+		precio=(EditText) findViewById(R.id.editText4);
+		desc=(EditText) findViewById(R.id.editText5);
+		nombre.setVisibility(View.INVISIBLE);
+		cantidad.setVisibility(View.INVISIBLE);
+		precio.setVisibility(View.INVISIBLE);
+		desc.setVisibility(View.INVISIBLE);
+		
+
+		Button boton = (Button) findViewById(R.id.button1);
+	        boton.setOnClickListener(new OnClickListener(){ 
+
+			@Override
+			public void onClick(View v) {
+				
+				EditText codigo=(EditText) findViewById(R.id.editText1);
+			     codigo1 = codigo.getText().toString();
+			     Principal pr = Principal.getInstance();
+			     p = pr.buscarProducto(codigo1);
+			    
+			     nombre.setText(p.getNombre());
+			     desc.setText(p.getDescripcion());
+			     precio.setText(String.valueOf(p.getPrecio()));
+			     cantidad.setText(String.valueOf(p.getCantidad()));
+			     
+				nombre.setVisibility(View.VISIBLE);
+				cantidad.setVisibility(View.VISIBLE);
+				precio.setVisibility(View.VISIBLE);
+				desc.setVisibility(View.VISIBLE);
+				
+			    
+
+			}});
+	        
+	        Button boton1 = (Button) findViewById(R.id.button2);
+	        boton1.setOnClickListener(new OnClickListener(){ 
+
+			@Override
+			public void onClick(View v) {
+				 
+			    
+				Principal pr = Principal.getInstance();
+				Producto productoModificar = new Producto();
+			
+			    productoModificar.setCantidad(Integer.parseInt(cantidad.getText().toString()));
+			    productoModificar.setDescripcion(desc.getText().toString());
+			    productoModificar.setNombre(nombre.getText().toString());
+			    productoModificar.setPrecio(Float.parseFloat(precio.getText().toString()));
+			    Log.e("importante", productoModificar.getNombre());
+			    pr.modificar(codigo1,productoModificar);
+			   
+			   
+
+	        Intent t = new Intent(ModificarProducto.this,MainActivity.class);
+	        startActivity(new Intent(t));
+		       overridePendingTransition(R.anim.abc_slide_in_bottom, R.anim.abc_slide_out_bottom);
+		    finish();
+		    
+		    
+			}});
+	
+	
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.modificar_producto, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
+	public void onBackPressed() {
+		Intent o = new Intent (ModificarProducto.this,MainActivity.class);
+        startActivity(new Intent(o));
+	       overridePendingTransition(R.anim.abc_slide_in_bottom, R.anim.abc_slide_out_bottom);
+        finish();
+	return;
+	}
+}
